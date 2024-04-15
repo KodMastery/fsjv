@@ -5,6 +5,8 @@ import mk.edu.codemaster.ems.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +34,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = IndexOutOfBoundsException.class, noRollbackFor = NullPointerException.class)
     public User updateUser(Long id, User uUser){
         User user = getUserById(id);
         user.setAge(uUser.getAge());
         return userRepository.save(user);
+
     }
 
     public void deleteUser(Long id){
@@ -47,7 +51,7 @@ public class UserService {
     }
 
     public User getUserByEmail(String email){
-        Optional<User> user = userRepository.findUserByEmail(email);
+        Optional<User> user = userRepository.getUserWithEmail(email);
         if(user.isPresent()){
             return user.get();
         }else {

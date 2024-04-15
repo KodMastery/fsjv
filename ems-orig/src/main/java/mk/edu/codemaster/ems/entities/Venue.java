@@ -26,4 +26,9 @@ public class Venue {
     @Column(nullable = false)
     private int capacity;
 
+    public Venue(String name, String address, int capacity) {
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+    }
 }

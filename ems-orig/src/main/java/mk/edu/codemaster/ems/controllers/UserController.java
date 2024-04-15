@@ -3,6 +3,7 @@ package mk.edu.codemaster.ems.controllers;
 import mk.edu.codemaster.ems.entities.User;
 import mk.edu.codemaster.ems.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
