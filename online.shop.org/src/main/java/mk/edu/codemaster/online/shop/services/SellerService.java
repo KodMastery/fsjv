@@ -1,6 +1,7 @@
 package mk.edu.codemaster.online.shop.services;
 
 import mk.edu.codemaster.online.shop.entities.Seller;
+import mk.edu.codemaster.online.shop.entities.dtos.SellerDTO;
 import mk.edu.codemaster.online.shop.repositories.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,4 +26,16 @@ public class SellerService {
         return sellerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Seller not found"));
     }
 
+    public Seller updateSeller(Long id, SellerDTO sellerDTO) {
+        Seller seller = getSellerById(id);
+        seller.setPassword(sellerDTO.getPassword());
+        seller.setRating(sellerDTO.getRating());
+        seller.setSoldProducts(sellerDTO.getSoldProducts());
+        return sellerRepository.save(seller);
+
+    }
+
+    public void deleteSeller(Long id) {
+        sellerRepository.deleteById(id);
+    }
 }

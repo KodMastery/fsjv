@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,5 @@ public class SellerDTO {
     private String password;
     private int soldProducts = 0;
     private float rating;
-    private List<ProductDTO> sellerProducts;
+    private List<ProductDTO> sellerProducts = new ArrayList<>();
 }

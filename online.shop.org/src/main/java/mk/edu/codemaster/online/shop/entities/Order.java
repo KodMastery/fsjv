@@ -1,5 +1,6 @@
 package mk.edu.codemaster.online.shop.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,14 @@ public class Order {
     private OrderStatus status;
     
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    public void addItemToOrder(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+    }
+
+    public void removeItemFromOrder(OrderItem orderItem){
+        this.orderItems.remove(orderItem);
+    }
 
 }

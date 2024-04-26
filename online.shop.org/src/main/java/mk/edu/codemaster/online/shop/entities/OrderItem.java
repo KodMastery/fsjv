@@ -27,6 +27,11 @@ public class OrderItem {
     private Product product;
 
     @Column(nullable = false)
-    private int quantity;
+    private int quantity = 1;
+
+    public OrderItem(Order order, Product product){
+        this.order = order;
+        this.product = product;
+    }
 
 }

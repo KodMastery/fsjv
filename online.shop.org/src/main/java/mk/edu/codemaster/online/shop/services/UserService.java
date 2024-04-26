@@ -1,11 +1,13 @@
 package mk.edu.codemaster.online.shop.services;
 
+import jakarta.servlet.http.HttpSession;
 import mk.edu.codemaster.online.shop.entities.User;
 import mk.edu.codemaster.online.shop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -46,6 +48,18 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean userExistsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found1"));
+    }
+
+    public boolean isLoggedIn(HttpSession session){
+        return session.getAttribute("user") != null;
     }
 
 }
