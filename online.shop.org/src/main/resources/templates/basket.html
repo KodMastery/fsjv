@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      padding-top: 80px;  /* Adjust this value based on the actual height of your navbar */
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" th:href="@{/home}">Online Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown" >
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User <i class="fas fa-user"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+            <li><a class="dropdown-item" th:href="@{/basket/cart}">Shopping Cart</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h2>Shopping Cart</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Remove</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${session.basket}">
+    <td th:text="${item.getProductDTO().getName()}">Item Name</td>
+    <td th:text="${item.getProductDTO().getDescription()}">Item Description</td>
+    <td th:text="${item.getProductDTO().getPrice()}">Item Price</td>
+    <td th:text="${item.getQuantity()}">Quantity</td>
+    <td>
+      <a th:href="@{/basket/remove/{id}(id=${item.getProductDTO().getId()})}" class="btn btn-danger">Remove</a>
+    </td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td colspan="3"></td>
+    <td><strong>Total:</strong></td>
+    <td th:text="${total}">Total Price</td>
+  </tr>
+  </tfoot>
+</table>
+<div class="text-right">
+  <a href="#" class="btn btn-success">Checkout</a>
+<!--  th:href="@{/checkout}"-->
+</div>
+</body>
+</html>
