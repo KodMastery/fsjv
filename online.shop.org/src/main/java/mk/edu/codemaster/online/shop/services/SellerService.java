@@ -19,6 +19,7 @@ public class SellerService {
     }
 
     public Seller createSeller(Seller seller){
+        //TODO Add validation for username and email, and add passwordEncoder
         return sellerRepository.save(seller);
     }
 
@@ -27,6 +28,7 @@ public class SellerService {
     }
 
     public Seller updateSeller(Long id, SellerDTO sellerDTO) {
+        //TODO Add validation and add passwordEncoder
         Seller seller = getSellerById(id);
         seller.setPassword(sellerDTO.getPassword());
         seller.setRating(sellerDTO.getRating());

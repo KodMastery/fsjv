@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import mk.edu.codemaster.online.shop.entities.User;
 import mk.edu.codemaster.online.shop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired private UserRepository userRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found"));
@@ -28,6 +30,7 @@ public class UserService {
         } else if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalStateException("User with that email already exists");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -40,8 +43,8 @@ public class UserService {
                 user.setUsername(updateUser.getUsername());
             }
         }
-        if(updateUser.getPassword() != null && !user.getPassword().equals(updateUser.getPassword())) {
-            user.setPassword(updateUser.getPassword());
+        if(updateUser.getPassword() != null && !passwordEncoder.matches(updateUser.getPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         }
         return userRepository.save(user);
     }

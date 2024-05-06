@@ -1,5 +1,6 @@
 package mk.edu.codemaster.online.shop.controllers.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import mk.edu.codemaster.online.shop.entities.dtos.OrderDTO;
 import mk.edu.codemaster.online.shop.entities.dtos.OrderItemDTO;
 import mk.edu.codemaster.online.shop.mappers.OrderItemMapper;
@@ -25,6 +26,7 @@ public class OrderRestController {
         return ResponseEntity.ok(orders);
     }
 
+    @Operation(summary = "Get Order By Id", description = "Retrieve a an Order by Id")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrder(@PathVariable("id") Long id) {
         OrderDTO order = orderMapper.toDTO(orderService.getOrderById(id));
