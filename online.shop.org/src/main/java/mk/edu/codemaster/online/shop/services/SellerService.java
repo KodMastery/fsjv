@@ -19,7 +19,11 @@ public class SellerService {
     }
 
     public Seller createSeller(Seller seller){
-        //TODO Add validation for username and email, and add passwordEncoder
+        if(sellerRepository.findByUsername(seller.getUsername()).isPresent()){
+            throw new IllegalStateException("Seller with that username already exists");
+        } else if (sellerRepository.findByEmail(seller.getEmail()).isPresent()) {
+            throw new IllegalStateException("Seller with that email already exists");
+        }
         return sellerRepository.save(seller);
     }
 
@@ -28,11 +32,16 @@ public class SellerService {
     }
 
     public Seller updateSeller(Long id, SellerDTO sellerDTO) {
-        //TODO Add validation and add passwordEncoder
         Seller seller = getSellerById(id);
-        seller.setPassword(sellerDTO.getPassword());
-        seller.setRating(sellerDTO.getRating());
-        seller.setSoldProducts(sellerDTO.getSoldProducts());
+        if(sellerDTO.getPassword() != null && !seller.getPassword().equals(sellerDTO.getPassword())) {
+            seller.setPassword(sellerDTO.getPassword());
+        }
+        if(seller.getRating() != sellerDTO.getRating()) {
+            seller.setRating(sellerDTO.getRating());
+        }
+        if(seller.getSoldProducts() != sellerDTO.getSoldProducts()) {
+            seller.setSoldProducts(sellerDTO.getSoldProducts());
+        }
         return sellerRepository.save(seller);
 
     }
